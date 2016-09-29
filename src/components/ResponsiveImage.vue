@@ -1,11 +1,16 @@
 <template>
-	<div id="banner">
-		<div v-if="pictures.length" :style="viewportStyle"></div>
-	</div>
+	<img :src="viewportSrc" :alt="alt" :style="viewportStyle" class="img-responsive">
 </template>
 
 <script>
 export default {
+	props : {
+		src : {},
+		alt : {
+			default : ""
+		}
+	},
+
 	data () {
 		return {
 			viewportHeight : 0,
@@ -15,10 +20,7 @@ export default {
 				{name : 'small', cls : 'sm', minWidth : 768},
 				{name : 'middle', cls : 'md', minWidth : 992},
 				{name : 'large', cls : 'lg', minWidth : 1200}
-			],
-
-			diaPointer : 0,
-			pictures : []
+			]
 		}
 	},
 
@@ -26,22 +28,12 @@ export default {
 		handleResize () {
 			this.viewportWidth = document.documentElement.clientWidth
 			this.viewportHeight = document.documentElement.clientHeight
-		},
-
-		changePicture () {
-			this.diaPointer = (diaPointer + 1) % pictures.length
 		}
 	},
 
 	created () {
 		this.handleResize()
-
   		window.addEventListener('resize', this.handleResize)
-
-		this.$http.get('turniere/fotos?pretty=0').then(response => {
-			this.pictures = response.data
-			this.diaPointer = Math.floor(Math.random() * this.pictures.length)
-		})
 	},
 	beforeDestroy () {
 	  	window.removeEventListener('resize', this.handleResize)
@@ -63,34 +55,12 @@ export default {
 			)
 		},
 
-		viewportStyle () {
-			let pictureUrl = this.pictures[this.diaPointer][this.viewportClass.name]
-				pictureUrl = "http://localhost/"+ pictureUrl // TEMP !!!
-
-			return {
-				'background-image' : 'url("'+ pictureUrl +'")'
-			}
+		viewportSrc () {
+			return this.src[this.viewportClass.name]
 		}
 	}
 }
 </script>
 
 <style scoped>
-#banner,
-#banner > div {
-	position: absolute;
-	top: 0px;
-	right: 0px;
-	bottom: 0px;
-	left: 0px;
-}
-#banner > div {
-	background-color: #e3e3e3;
-	background-position: center 45%;
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-
-	top: 50px;
-}
 </style>

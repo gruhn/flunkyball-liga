@@ -1,14 +1,16 @@
 <template>
-	<header :class="{'landing' : $route.path === '/'}">
-		<main-navi :links="naviLinks"></main-navi>
-		<banner></banner>
-	</header>
+	<div class="page {{pageClass}}">
+		<header>
+			<main-navi></main-navi>
+			<banner></banner>
+		</header>
 
-	<main :class="{'landing' : $route.path === '/'}">
-		<router-view></router-view>
-	</main>
+		<main>
+			<router-view></router-view>
+		</main>
 
-	<page-footer></page-footer>
+		<page-footer></page-footer>
+	</div>
 </template>
 
 <script>
@@ -17,15 +19,12 @@ import Banner from './components/Banner'
 import PageFooter from './components/PageFooter'
 
 export default {
-	data () {
-		return {
-			naviLinks : [
-				{text : 'Flunkyball-Liga.org', link : {path : '/'}},
-				{text : 'Turniere', link : {path : '/turniere'}},
-				{text : 'Mannschaften', link : {path : '/mannschaften'}},
-				{text : 'Spieler', link : {path : '/spieler'}},
-				{text : 'Regelwerk', link : {path : '/regelwerk'}}
-			]
+	computed : {
+		pageClass () {
+			if (this.$route.name === 'start')
+				return 'landing-page'
+			else
+				return ''
 		}
 	},
 
@@ -36,33 +35,48 @@ export default {
 </script>
 
 <style>
+* {
+	outline: none;
+}
+
 body {
 	position: absolute;
 	top: 0px;
 	right: 0px;
-	bottom: -1px;
+	bottom: -5px;
 	left: 0px;
 
 	overflow-x: hidden;
 
 	font-family: "Open Sans", sans-serif;
 }
+#app {
+	height: 100%;
+}
 
 p {
 	line-height: 1.5;
 }
 
-main {
+#app > main {
 	min-height: 60%;
 	position: relative;
 }
-
-header {
+#app > header {
 	height: 40%;
 	position: relative;
 }
-header.landing {height: 60%;}
-main.landing {min-height: 40%;}
+
+#app.landing-page > header {
+	height: 0%;
+}
+#app.landing-page > header #banner > div {
+	/*background-position: center center;*/
+}
+#app.landing-page > main {
+	min-height: 100%;
+	background-color: #000;
+}
 
 td, th {
 	vertical-align: middle !important;
@@ -71,30 +85,13 @@ td {
 	text-align: center;
 }
 
-a:active,
-a:hover {
-	outline: none;
+a {
+	transition: color .2s;
+	text-decoration: none;
 }
-
-/*.team-logo {
-	border-radius: 50%;
-
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-image: url("./assets/no-logo.png");
-	background-color: #e3e3e3;
-
-	width: 160px;
-	height: 160px;
-
-	display: block;
+a:hover, a:focus, a:active {
+	text-decoration: none;
 }
-.team-logo-small {
-	height: 32px;
-	width: 32px;
-	margin-right: 10px;
-}*/
 
 .glyphicon-podium {
 	background-image: url("./assets/glyphicons-podium.png");

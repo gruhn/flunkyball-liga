@@ -4,9 +4,14 @@
 			<h1>Turniere</h1>
 		</div>
 
-		<div class="row">
+
+		<record-list :options="recordListOptions">
+
+		</record-list>
+
+		<!--<div class="row">
 			<div class="col-xs-12 col-sm-4" v-bind:class="{'hidden-xs' : $ctrl.isAnyActive}">
-	<!--
+
 				<list :items="" :item-tempate=""></list>
 
 						<span>
@@ -16,7 +21,7 @@
 							</small>
 						</span>
 
-						<span class="glyphicon glyphicon-menu-right text-right"></span>-->
+						<span class="glyphicon glyphicon-menu-right text-right"></span>
 
 			</div>
 
@@ -67,14 +72,53 @@
 
 				</div>
 			</div>
-		</div>
+		</div>-->
 	</div>
 </template>
 
 <script>
+import RecordList from './RecordList'
+
 export default {
 	data () {
-		return {}
+		return {
+			tournament : undefined,
+
+			recordListOptions : {
+				loadingApiPath : 'turniere?pretty=0',
+				displayIcon : false,
+
+				sortOptions : [
+					{text : "Datum", field : "datum", displayOrder : false},
+					{text : "Titel", field : "titel", displayOrder : false}
+				],
+
+				mapping : {
+					text (record, sorting) {
+						let text = ""
+
+						text += record.titel +'<br>'
+						text += '<small><time>'+ record.datum /*| date : 'dd. MMMM yyyy'*/ +'</time></small>'
+
+						return text
+					}
+				}
+			}
+		}
+	},
+
+	events : {
+		'record-list-click' (record) {
+			this.$http.get('turniere/'+record.turnier_id+'?pretty=0').then(
+				response => {
+					this.tournament = response.data
+				}
+			)
+		}
+	},
+
+	components : {
+		RecordList
 	}
 }
 </script>

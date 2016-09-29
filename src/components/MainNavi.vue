@@ -17,7 +17,7 @@
 			<div class="navbar-collapse" :transition="transition" v-show="!collapsed" v-bind:class="{'collapse' : collapsed}">
 				<ul class="nav navbar-nav navbar-right">
 					<li v-for="link in naviLinks">
-						<a v-link="link.link" v-on:click="collapse(true)">{{link.text}}</a>
+						<a v-link="link.link" @click="collapse(true)">{{link.text}}</a>
 					</li>
 				</ul>
 			</div>
@@ -27,17 +27,17 @@
 
 <script>
 export default {
-	props : {
-		links : {
-			type : Array,
-			required : true,
-			default : [{text : '', link : {path : '/'}}]
-		}
-	},
-
 	data () {
 		return {
-			collapsed : true
+			collapsed : true,
+
+			links : [
+				{text : 'Flunkyball Liga', link : {path : '/'}},
+				{text : 'Turniere', link : {path : '/turniere'}},
+				{text : 'Mannschaften', link : {path : '/mannschaften'}},
+				{text : 'Spieler', link : {path : '/spieler'}},
+				{text : 'Regelwerk', link : {path : '/regelwerk'}}
+			]
 		}
 	},
 
