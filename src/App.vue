@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import store from './vuex/store'
+
 import MainNavi from './components/MainNavi'
 import Banner from './components/Banner'
 import PageFooter from './components/PageFooter'
@@ -30,7 +32,9 @@ export default {
 
 	components : {
 		Banner, MainNavi, PageFooter
-	}
+	},
+
+	store
 }
 </script>
 

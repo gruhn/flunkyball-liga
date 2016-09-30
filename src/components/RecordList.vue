@@ -24,7 +24,7 @@
 			</div>
 
 			<div class="list-group">
-				<a  v-for="(index, record) in filteredRecords | filterBy filter | orderBy sorting.field"
+				<a  v-for="(index, record) in filteredRecords | filterBy filter | orderBy sorting.field sorting.order"
 					@click="handleRecordClick(record)"
 					:class="{'active' : isActive(record)}"
 					class="list-group-item">
@@ -53,7 +53,8 @@ import CircleImage from './CircleImage'
 
 export default {
 	props : {
-		options : {}
+		options : {},
+		records : {}
 	},
 
 	data () {
@@ -86,12 +87,6 @@ export default {
 		isAnyActive () {
 			return this.selected !== undefined
 		}
-	},
-
-	created () {
-		this.$http.get(this.options.loadingApiPath).then(response => {
-			this.records = response.data
-		})
 	},
 
 	methods : {

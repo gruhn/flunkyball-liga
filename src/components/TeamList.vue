@@ -88,11 +88,11 @@ export default {
 				displayIcon : true,
 
 				sortOptions : [
-					{text : "Name", field : "name", displayOrder : false},
-					{text : "Rang: Spiele gewonnen", field : "rang_spiele_gewonnen_prozent", displayOrder : true},
-					{text : "Rang: Fouls pro Spiel", field : "rang_quote_fouls_pro_spiel", displayOrder : true},
-					{text : "Rang: Runden bis Sieg", field : "rang_quote_runden_bis_sieg_mittel", displayOrder : true},
-					{text : "Rang: Punkte bei Sieg", field : "rang_quote_punkte_bei_sieg_mittel", displayOrder : true}
+					{text : "Name", field : "name", order : 1, displayOrder : false},
+					{text : "Rang: Spiele gewonnen", field : "rang_spiele_gewonnen_prozent", order : 1, displayOrder : true},
+					{text : "Rang: Fouls pro Spiel", field : "rang_quote_fouls_pro_spiel", order : 1, displayOrder : true},
+					{text : "Rang: Runden bis Sieg", field : "rang_quote_runden_bis_sieg_mittel", order : 1, displayOrder : true},
+					{text : "Rang: Punkte bei Sieg", field : "rang_quote_punkte_bei_sieg_mittel", order : 1, displayOrder : true}
 				],
 
 				mapping : {

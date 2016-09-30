@@ -1,96 +1,81 @@
 <template>
 	<div id="banner">
-		<div v-if="pictures.length" :style="viewportStyle"></div>
+		<responsive-image :src="currentPicture"></responsive-image>
 	</div>
 </template>
 
 <script>
+import ResponsiveImage from './ResponsiveImage'
+
 export default {
 	data () {
 		return {
-			viewportHeight : 0,
-			viewportWidth : 0,
-			viewportClasses : [
-				{name : 'extra-small', cls : 'xs', minWidth : 0},
-				{name : 'small', cls : 'sm', minWidth : 768},
-				{name : 'middle', cls : 'md', minWidth : 992},
-				{name : 'large', cls : 'lg', minWidth : 1200}
-			],
-
 			diaPointer : 0,
 			pictures : []
 		}
 	},
 
 	methods : {
-		handleResize () {
-			this.viewportWidth = document.documentElement.clientWidth
-			this.viewportHeight = document.documentElement.clientHeight
-		},
-
-		changePicture () {
+		nextPicture () {
 			this.diaPointer = (diaPointer + 1) % pictures.length
 		}
 	},
 
 	created () {
-		this.handleResize()
-
-  		window.addEventListener('resize', this.handleResize)
-
 		this.$http.get('turniere/fotos?pretty=0').then(response => {
 			this.pictures = response.data
 			this.diaPointer = Math.floor(Math.random() * this.pictures.length)
 		})
 	},
-	beforeDestroy () {
-	  	window.removeEventListener('resize', this.handleResize)
-  	},
 
 	computed : {
-		viewportClass () {
-			let self = this
-
-			return this.viewportClasses.reduce(
-				(bestMatch, item) => {
-					if (bestMatch.minWidth < item.minWidth && self.viewportWidth >= item.minWidth)
-						return item
-					else
-						return bestMatch
-				},
-
-				this.viewportClasses[0]
-			)
-		},
-
-		viewportStyle () {
-			let pictureUrl = this.pictures[this.diaPointer][this.viewportClass.name]
-				pictureUrl = "http://localhost/"+ pictureUrl // TEMP !!!
-
+		currentPicture () {
 			return {
-				'background-image' : 'url("'+ pictureUrl +'")'
+			  	"large": "https://flunkyball-liga.org/files/turnier-fotos/large/2016-05-07_04.jpg",
+			  	"middle": "https://flunkyball-liga.org/files/turnier-fotos/middle/2016-05-07_04.jpg",
+			  	"small": "https://flunkyball-liga.org/files/turnier-fotos/small/2016-05-07_04.jpg",
+			  	"extra-small": "https://flunkyball-liga.org/files/turnier-fotos/extra-small/2016-05-07_04.jpg"
 			}
+
+			//return this.pictures[this.diaPointer]
 		}
+	},
+
+	components : {
+		ResponsiveImage
 	}
 }
 </script>
 
-<style scoped>
-#banner,
-#banner > div {
+<style>
+#banner {
 	position: absolute;
 	top: 0px;
 	right: 0px;
 	bottom: 0px;
 	left: 0px;
-}
-#banner > div {
-	background-color: #e3e3e3;
-	background-position: center 45%;
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-attachment: fixed;
 
-	top: 50px;
+	overflow: hidden;
+}
+
+#banner > .img-responsive {
+	position: absolute;
+	max-width: none;
+}
+
+@media (min-width: 768px) {
+	#banner > .img-responsive {
+		top: -20%;		
+	}
+}
+@media (min-width: 992px) {
+	#banner > .img-responsive {
+		top: -40%;
+	}
+}
+@media (min-width: 1200px) {
+	#banner > .img-responsive {
+		top: -60%;
+	}
 }
 </style>

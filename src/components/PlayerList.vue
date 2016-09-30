@@ -4,7 +4,7 @@
 			<h1>Spieler</h1>
 		</div>
 
-		<record-list :options="recordListOptions">
+		<record-list :options="recordListOptions" :records="recordListData">
 			<!--<router-view></router-view>-->
 
 			<div v-if="player !== undefined">
@@ -108,8 +108,21 @@
 <script>
 import RecordList from './RecordList'
 import CircleImage from './CircleImage'
+import { loadPlayers, loadPlayerDetails } from '../vuex/actions'
+import { getPlayers } from '../vuex/getters'
 
 export default {
+	vuex : {
+		getters : {
+			getPlayers
+		},
+
+		actions : {
+			loadPlayers,
+			loadPlayerDetails
+		}
+	},
+
 	data () {
 		return {
 			player : undefined,
@@ -119,11 +132,11 @@ export default {
 				displayIcon : false,
 
 				sortOptions : [
-					{text : "Name", field : "name", displayOrder : false},
-					{text : "Mannschaft", field : "mannschaft", displayOrder : false},
-					{text : "Rang: FlunkYndex", field : "rang_flunky_index", displayOrder : true},
-					{text : "Rang: Trefferquote", field : "rang_prozent_treffer", displayOrder : true},
-					{text : "Rang: Trinkquote", field : "rang_quote_schluecke_mittel", displayOrder : true}
+					{text : "Name", field : "name", order : 1, displayOrder : false},
+					{text : "Mannschaft", field : "mannschaft", order : 1, displayOrder : false},
+					{text : "Rang: FlunkYndex", field : "rang_flunky_index", order : 1, displayOrder : true},
+					{text : "Rang: Trefferquote", field : "rang_prozent_treffer", order : 1, displayOrder : true},
+					{text : "Rang: Trinkquote", field : "rang_quote_schluecke_mittel", order : 1, displayOrder : true}
 				],
 
 				mapping : {
@@ -141,13 +154,16 @@ export default {
 		}
 	},
 
+	computed : {
+		recordListData () {
+			return this.getPlayers()
+		}
+	},
+
 	events : {
 		'record-list-click' (record) {
-			this.$http.get('spieler/'+record.spieler_id+'?pretty=0').then(
-				response => {
-					this.player = response.data
-				}
-			)
+			this.player = record
+			this.loadPlayerDetails(record['spieler_id'])
 		}
 	},
 

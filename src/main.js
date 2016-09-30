@@ -85,6 +85,23 @@ Vue.filter('number', function (number, digits) {
 
 	return number.replace('.', ',')
 })
+Vue.filter('date', function (dateString) {
+	if (dateString == undefined)
+		return undefined
+
+	let format = ""
+	let date = new Date(dateString)
+	let month = [
+		'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+		'August', 'September', 'Oktober', 'November', 'Dezember'
+	]
+
+	format += date.getDate() +". "
+	format += month[date.getMonth()] +" "
+	format += date.getFullYear()
+
+	return format
+})
 
 
 new Vue({
