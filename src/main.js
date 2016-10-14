@@ -7,8 +7,8 @@ Vue.use(Vuex)
 Vue.use(VueResource)
 Vue.use(VueRouter)
 
-Vue.http.options.root = 'http://192.168.0.11/flunkyball-liga.org/www2/api/v1'
-// https://flunkyball-liga/api/v1 in production
+//Vue.http.options.root = '/api/v1'
+Vue.http.options.root = 'http://localhost:80/flunkyball-liga.org/www2/api/v1'
 
 import App from './App'
 import LandingPage from './components/LandingPage'

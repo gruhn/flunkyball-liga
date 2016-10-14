@@ -58,11 +58,11 @@ export default {
 				'anzahl_spiele_total' : 0
 			},
 
-			images : {
-				'large' : 'http://localhost/flunkyball-liga.org/www2/files/turnier-fotos/separator-lg.jpg',
-				'middle' : 'http://localhost/flunkyball-liga.org/www2/files/turnier-fotos/separator-md.jpg',
-				'small' : 'http://localhost/flunkyball-liga.org/www2/files/turnier-fotos/separator-sm.jpg',
-				'extra-small' : 'http://localhost/flunkyball-liga.org/www2/files/turnier-fotos/separator-xs.jpg',
+			images : { ///...
+				'large' : './static/img/separator-lg.jpg',
+				'middle' : './static/img/separator-md.jpg',
+				'small' : './static/img/separator-sm.jpg',
+				'extra-small' : './static/img/separator-xs.jpg'
 			}
 		}
 	},

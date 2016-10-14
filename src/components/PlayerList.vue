@@ -4,7 +4,7 @@
 			<h1>Spieler</h1>
 		</div>
 
-		<record-list :options="recordListOptions" :records="recordListData">
+		<record-list :options="recordListOptions" :records="playerList">
 			<!--<router-view></router-view>-->
 
 			<div v-if="player !== undefined">
@@ -52,7 +52,7 @@
 								</tr>
 								<tr>
 									<th>Bier getrunken</th>
-									<td>{{player.anzahl_spiele * 0.5}} Liter</td>
+									<td>{{player.anzahl_spiele * 0.5 | number 1 | orElse '-'}} Liter</td>
 									<td></td>
 									<td></td>
 								</tr>
@@ -62,7 +62,11 @@
 				</div>
 
 				<div class="panel panel-default">
-					<div class="panel-heading">Details <small>Trinkquote</small></div>
+					<div class="panel-heading">Entwicklung <small>Trinkquote</small></div>
+
+					<div class="panel-body">
+						<chart :data="player.schluecke"></chart>
+					</div>
 
 					<div class="table-responsive">
 						<table class="table">
@@ -78,7 +82,7 @@
 									<td>{{player.quote_schluecke_beste | number 0 | orElse '-')}}</td>
 								</tr>
 								<tr>
-									<th>Arithmetisches Mittel</th>
+									<th>Arith. Mittel</th>
 									<td>{{player.quote_schluecke_mittel | number 2 | orElse '-'}}</td>
 								</tr>
 								<tr>
@@ -86,7 +90,7 @@
 									<td>{{player.quote_schluecke_median | number 1 | orElse '-'}}</td>
 								</tr>
 								<tr>
-									<th>Modus (Modalwert)</th>
+									<th>Modus</th>
 									<td>{{player.quote_schluecke_modus | number 0 | orElse '-'}}</td>
 								</tr>
 							</tbody>
@@ -108,13 +112,15 @@
 <script>
 import RecordList from './RecordList'
 import CircleImage from './CircleImage'
+import Chart from './Chart'
+
 import { loadPlayers, loadPlayerDetails } from '../vuex/actions'
 import { getPlayers } from '../vuex/getters'
 
 export default {
 	vuex : {
 		getters : {
-			getPlayers
+			playerList : getPlayers
 		},
 
 		actions : {
@@ -128,7 +134,6 @@ export default {
 			player : undefined,
 
 			recordListOptions : {
-				loadingApiPath : 'spieler?pretty=0',
 				displayIcon : false,
 
 				sortOptions : [
@@ -154,10 +159,8 @@ export default {
 		}
 	},
 
-	computed : {
-		recordListData () {
-			return this.getPlayers()
-		}
+	created () {
+		this.loadPlayers()
 	},
 
 	events : {
@@ -167,21 +170,8 @@ export default {
 		}
 	},
 
-	methods : {
-		teamLogo (team) {
-			if (team.hat_logo)
-				return '../assets/team-logos/'+ team.mannschaft_id +'.png'
-			else
-				return '../assets/no-logo.png'
-		},
-
-		teamColor (team) {
-			return 'hsl('+((team.mannschaft_id * 30) % 361)+', 50%, 80%)'
-		}
-	},
-
 	components : {
-		RecordList, CircleImage
+		RecordList, CircleImage, Chart
 	}
 }
 </script>

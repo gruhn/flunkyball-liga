@@ -4,7 +4,7 @@
 			<h1>Mannschaften</h1>
 		</div>
 
-		<record-list :options="recordListOptions">
+		<record-list :options="recordListOptions" :records="">
 			<!--<router-view></router-view>-->
 
 			<div v-if="team !== undefined" class="team-details">
@@ -84,7 +84,6 @@ export default {
 			team : undefined,
 
 			recordListOptions : {
-				loadingApiPath : 'mannschaften?pretty=0',
 				displayIcon : true,
 
 				sortOptions : [
@@ -123,12 +122,23 @@ export default {
 		}
 	},
 
+	/*created () {
+		this.loadTeams()
+	},
+
+	events : {
+		'record-list-click' (record) {
+			this.player = record
+			this.loadTeamDetails(record['mannschaft_id'])
+		}
+	},*/
+
 	methods : {
 		teamLogo (team) {
 			if (team.hat_logo)
-				return '../assets/team-logos/'+ team.mannschaft_id +'.png'
+				return './static/team-logos/'+ team.mannschaft_id +'.png'
 			else
-				return '../assets/no-logo.png'
+				return './static/img/no-logo.png'
 		},
 
 		teamColor (team) {

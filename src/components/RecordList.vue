@@ -50,16 +50,21 @@
 
 <script>
 import CircleImage from './CircleImage'
+import filter from 'lodash/fp/filter'
+import flow from 'lodash/fp/flow'
+import orderBy from 'lodash/fp/orderBy'
 
 export default {
 	props : {
 		options : {},
-		records : {}
+		records : {
+			type : Array,
+			default : _ => []
+		}
 	},
 
 	data () {
 		return {
-			records : [],
 			selected : undefined,
 			filter : "",
 			sorting : this.options.sortOptions[0],
@@ -76,12 +81,17 @@ export default {
 		},
 
 		filteredRecords () {
-			return this.records.filter(
-				record => {
+			return flow(
+				filter(record => {
 					return record[this.sorting.field] !== undefined
 						&& record[this.sorting.field] !== null
-				}
-			)
+				})
+			)(this.records)
+
+			/*return _.filter(this.records, record => {
+				return record[this.sorting.field] !== undefined
+					&& record[this.sorting.field] !== null
+			})*/
 		},
 
 		isAnyActive () {

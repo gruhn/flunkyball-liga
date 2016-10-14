@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import each from 'lodash/each'
+import merge from 'lodash/merge'
 
 Vue.use(Vuex)
 
-export const store = new Vuex.Store({
+const store = new Vuex.Store({
 	state : {
 		//loading : false,
 
@@ -20,19 +22,22 @@ export const store = new Vuex.Store({
 		'UPDATE_STATS' (state, statClass, idField, records) {
 			let data = state.stats[statClass]
 
-			records.forEach(
-				record => {
-					let id = record[idField]
+			each(records, record => {
+				let id = record[idField]
+				/*let recordWatchable = {}
 
-					if (data[id] === undefined)
-						Vue.set(data, id, {})
+				each(record, (val, key) => {
+					Vue.set(recordWatchable, key, val)
+				})*/
 
-					record.keys().forEach(key => {
-						Vue.set(data[id], key, record[key])
-					})
-				}
-			)
+				if (data[id] === undefined)
+					Vue.set(data, id, {})
+
+				data[id] = merge(data[id], recordWatchable)
+			})
 		}
 
 	}
 })
+
+export default store

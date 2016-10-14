@@ -1,6 +1,6 @@
 <template>
 	<div class="circle-image" :style="[{'background-color' : this.color}, bounds]">
-		<img src="../assets/no-logo.png" aria-hidden="true" class="img-responsive">
+		<img :src="src" aria-hidden="true" class="img-responsive">
 	</div>
 </template>
 
