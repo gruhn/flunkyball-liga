@@ -2,7 +2,7 @@
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" v-on:click="toggleCollapse()">
+				<button type="button" class="navbar-toggle collapsed" @click="toggleCollapse()">
 					<span class="sr-only">Menü anzeigen / verstecken</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -13,7 +13,7 @@
 			</div>
 
 			<transition name="expand">
-				<div class="navbar-collapse" v-show="!collapsed" :class="{'collapse' : collapsed}"> 
+				<div class="navbar-collapse" v-show="!collapsed" :class="{'collapse' : collapsed}">
 					<ul class="nav navbar-nav navbar-right">
 						<li v-for="link in naviLinks">
 							<router-link :to="link.route" @click="collapse(true)">{{link.text}}</router-link>
@@ -72,21 +72,32 @@ export default {
 	display: block;
 }
 
-.expand-enter {
-	transition: max-height .5s;
+.navbar-collapse {
 	overflow: hidden;
-	max-height: 0px;
-}
-.expand-enter-active {
-	max-height: 500px;
 }
 
-.expand-leave {
-	transition: max-height .3s;
-	overflow: hidden;
-	max-height: 500px;
+.expand-enter-active {
+	animation: expand .5s;
 }
 .expand-leave-active {
-	max-height: 0px;
+	animation: collapse .35s;
 }
+
+@keyframes expand {
+	0% {
+		max-height: 0px;
+	}
+	100% {
+		max-height: 500px;
+	}
+}
+@keyframes collapse {
+	0% {
+		max-height: 500px;
+	}
+	100% {
+		max-height: 0px;
+	}
+}
+
 </style>
