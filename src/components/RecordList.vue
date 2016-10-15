@@ -81,8 +81,8 @@ export default {
 		},
 
 		displayIcon () {
-			return this.options.iconUrl !== undefined
-				&& this.options.iconBg !== undefined
+			return this.options.mapping.iconUrl !== undefined
+				&& this.options.mapping.iconBg !== undefined
 		},
 
 		sortable () {

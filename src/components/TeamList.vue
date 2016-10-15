@@ -94,7 +94,7 @@ export default {
 	},
 
 	data () {
-		console.log(this)
+		let self = this
 
 		return {
 			team : undefined,
@@ -119,8 +119,13 @@ export default {
 						return text
 					},
 
-					iconUrl : this.teamLogo,
-					iconBg : this.teamColor
+					iconUrl (record) {
+						return self.teamLogo(record)
+					},
+
+					iconBg (record) {
+						return self.teamColor(record)
+					}
 				}
 			}
 		}
