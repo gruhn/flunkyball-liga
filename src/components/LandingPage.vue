@@ -1,49 +1,51 @@
 <template>
-	<section id="intro-section">
-		<div class="spacer" aria-hidden="true"></div>
+	<div>
+		<section id="intro-section">
+			<div class="spacer" aria-hidden="true"></div>
 
-		<div class="container">
-			<p>
-				Flunkyball-Liga.org ist ein Projekt zur Förderung der großartigen Sportart Flunkyball.
-				Mit dem 26. Juni 2015 wurden erstmals die statistischen Daten eines Flunkyball-Turniers
-				erfasst und hier veröffentlicht. Seither wurden <strong>{{stats.anzahl_turniere}} Turniere</strong>
-				aufgezeichnet, an denen zusammen <strong>{{stats.anzahl_teilnehmer_total}} Spieler</strong>
-				teilgenommen haben, mit insgesamt <strong>{{stats.anzahl_spiele_total}} Spielen</strong>,
-				in denen <strong>{{stats.anzahl_spiele_total * 5}} Liter</strong> Bier vertilgt wurden.
-			</p>
-		</div>
+			<div class="container">
+				<p>
+					Flunkyball-Liga.org ist ein Projekt zur Förderung der großartigen Sportart Flunkyball.
+					Mit dem 26. Juni 2015 wurden erstmals die statistischen Daten eines Flunkyball-Turniers
+					erfasst und hier veröffentlicht. Seither wurden <strong>{{stats.anzahl_turniere}} Turniere</strong>
+					aufgezeichnet, an denen zusammen <strong>{{stats.anzahl_teilnehmer_total}} Spieler</strong>
+					teilgenommen haben, mit insgesamt <strong>{{stats.anzahl_spiele_total}} Spielen</strong>,
+					in denen <strong>{{stats.anzahl_spiele_total * 5}} Liter</strong> Bier vertilgt wurden.
+				</p>
+			</div>
 
-		<div class="spacer" aria-hidden="true"></div>
-	</section>
+			<div class="spacer" aria-hidden="true"></div>
+		</section>
 
-	<responsive-image :src="images"></responsive-image>
+		<responsive-image :src="images"></responsive-image>
 
-	<!--<section id="newsletter-section">
-		<div class="container">
-			<h2>Wann ist das nächste Turnier?</h2>
-			<p>
-				Lass dich per E-Mail benachrichtigen, sobald ein Turnier ansteht.
-				Du bekommst nichts anderes als Turnier-Benachrichtigungen und
-				kannst den Newsletter jeder Zeit wieder abbestellen.
-			</p>
+		<!--<section id="newsletter-section">
+			<div class="container">
+				<h2>Wann ist das nächste Turnier?</h2>
+				<p>
+					Lass dich per E-Mail benachrichtigen, sobald ein Turnier ansteht.
+					Du bekommst nichts anderes als Turnier-Benachrichtigungen und
+					kannst den Newsletter jeder Zeit wieder abbestellen.
+				</p>
 
-			<form method="post" action="">
-				<div class="form-group">
-					<input
-						type="email"
-						class="form-control input-lg"
-						aria-label="E-Mail-Adresse"
-						placeholder="E-Mail-Adresse">
-				</div>
+				<form method="post" action="">
+					<div class="form-group">
+						<input
+							type="email"
+							class="form-control input-lg"
+							aria-label="E-Mail-Adresse"
+							placeholder="E-Mail-Adresse">
+					</div>
 
-				<button
-					type="submit"
-					class="btn btn-primary btn-lg">
-					Abbonieren
-				</button>
-			</form>
-		</div>
-	</section>-->
+					<button
+						type="submit"
+						class="btn btn-primary btn-lg">
+						Abbonieren
+					</button>
+				</form>
+			</div>
+		</section>-->
+	</div>
 </template>
 
 <script>

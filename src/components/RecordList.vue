@@ -2,6 +2,15 @@
 	<div class="row">
 		<aside class="col-xs-12 col-sm-4" :class="{'hidden-xs' : isAnyActive}">
 
+			<div class="form-group has-feedback" v-if="filterable">
+				<label>Filtern</label>
+				<input
+					v-model="filter"
+					type="text"
+					class="form-control input-sm">
+				<span class="glyphicon glyphicon-search form-control-feedback"></span>
+			</div>
+
 			<div class="form-group" v-if="sortable">
 				<label>Sortieren nach</label>
 				<select
@@ -14,28 +23,19 @@
 				</select>
 			</div>
 
-			<div class="form-group has-feedback" v-if="filterable">
-				<label>Filtern</label>
-				<input
-					v-model="filter"
-					type="text"
-					class="form-control input-sm">
-				<span class="glyphicon glyphicon-search form-control-feedback"></span>
-			</div>
-
 			<div class="list-group">
-				<a  v-for="(index, record) in filteredRecords | filterBy filter | orderBy sorting.field sorting.order"
+				<a  v-for="(record, index) in filteredRecords"
 					@click="handleRecordClick(record)"
 					:class="{'active' : isActive(record)}"
 					class="list-group-item">
 
 					<circle-image
-						v-if="options.displayIcon"
+						v-if="displayIcon"
 						:src="options.mapping.iconUrl(record)"
 						:color="options.mapping.iconBg(record)"
 						size="32"
 					></circle-image>
-					<div class="record-text">{{{options.mapping.text(record, sorting)}}}</div>
+					<div class="record-text" v-html="options.mapping.text(record, sorting)"></div>
 					<div class="glyphicon glyphicon-menu-right text-right"></div>
 
 				</a>
@@ -53,6 +53,10 @@ import CircleImage from './CircleImage'
 import filter from 'lodash/fp/filter'
 import flow from 'lodash/fp/flow'
 import orderBy from 'lodash/fp/orderBy'
+import reject from 'lodash/fp/reject'
+import isString from 'lodash/isString'
+import includes from 'lodash/includes'
+import some from 'lodash/fp/some'
 
 export default {
 	props : {
@@ -76,22 +80,21 @@ export default {
 			return this.records.length > 20
 		},
 
+		displayIcon () {
+			return this.options.iconUrl !== undefined
+				&& this.options.iconBg !== undefined
+		},
+
 		sortable () {
 			return true
 		},
 
 		filteredRecords () {
 			return flow(
-				filter(record => {
-					return record[this.sorting.field] !== undefined
-						&& record[this.sorting.field] !== null
-				})
+				reject([this.sorting.field, null]),
+				filter(this.includesString(this.filter)),
+				orderBy([this.sorting.field, this.sorting.order], [])
 			)(this.records)
-
-			/*return _.filter(this.records, record => {
-				return record[this.sorting.field] !== undefined
-					&& record[this.sorting.field] !== null
-			})*/
 		},
 
 		isAnyActive () {
@@ -102,7 +105,17 @@ export default {
 	methods : {
 		handleRecordClick (record) {
 			this.selected = record
-			this.$dispatch('record-list-click', record)
+			this.$emit('record-list-click', record)
+		},
+
+		includesString (string) {
+			return flow(
+				filter(isString),
+				some(val => includes(
+					val.toLowerCase(),
+					this.filter.toLowerCase()
+				))
+			)
 		},
 
 		isActive (record) {

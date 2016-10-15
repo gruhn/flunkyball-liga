@@ -1,6 +1,10 @@
 <template>
-	<div class="circle-image" :style="[{'background-color' : this.color}, bounds]">
-		<img :src="src" aria-hidden="true" class="img-responsive">
+	<div :style="bounds" class="circle-image">
+		<img
+			:src="src"
+			aria-hidden="true"
+			class="img-responsive img-circle"
+			:style="{'background-color' : color}">
 	</div>
 </template>
 
@@ -22,12 +26,4 @@ export default {
 </script>
 
 <style>
-.circle-image {
-	border-radius: 50%;
-
-	/*background-position: center center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-color: #e3e3e3;*/
-}
 </style>

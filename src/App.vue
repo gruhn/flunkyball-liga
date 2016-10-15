@@ -1,5 +1,5 @@
 <template>
-	<div class="page {{pageClass}}">
+	<div :class="'page ' + pageClass" id="app">
 		<header>
 			<main-navi></main-navi>
 			<banner></banner>
@@ -14,11 +14,59 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import store from './vuex/store'
-
 import MainNavi from './components/MainNavi'
 import Banner from './components/Banner'
 import PageFooter from './components/PageFooter'
+import padStart from 'lodash/padStart'
+
+Vue.filter('unit', function (number, unit) {
+	if (number == undefined)
+		return undefined
+
+	if (('%€$').includes(unit))
+		return number + unit
+	else if (('Ø§').includes(unit))
+		return unit +' '+ number
+	else
+		return number
+})
+Vue.filter('pad', function (number, size) {
+	return padStart(number+"", size, '0')
+})
+Vue.filter('orElse', function (value, altValue) {
+	if (value == undefined)
+		return altValue
+
+	return value
+})
+Vue.filter('number', function (number, digits) {
+	if (number == undefined)
+		return undefined
+
+	if (digits !== undefined)
+		number = number.toFixed(digits)
+
+	return number.replace('.', ',')
+})
+Vue.filter('date', function (dateString) {
+	if (dateString == undefined)
+		return undefined
+
+	let format = ""
+	let date = new Date(dateString)
+	let month = [
+		'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+		'August', 'September', 'Oktober', 'November', 'Dezember'
+	]
+
+	format += date.getDate() +". "
+	format += month[date.getMonth()] +" "
+	format += date.getFullYear()
+
+	return format
+})
 
 export default {
 	computed : {

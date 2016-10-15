@@ -29,20 +29,20 @@
 								<tr>
 									<th>FlunkYndex <sup>1</sup></th>
 									<td></td>
-									<td>{{player.flunky_index | number 2 | orElse '-'}}</td>
-									<td>{{player.rang_flunky_index | orElse '-'}}</td>
+									<td>{{player.flunky_index | number(2) | orElse('-')}}</td>
+									<td>{{player.rang_flunky_index | orElse('-')}}</td>
 								</tr>
 								<tr>
 									<th>Trefferquote <sup>2</sup></th>
 									<td>{{player.anzahl_treffer +' von '+ player.anzahl_wuerfe}}</td>
-									<td>{{player.prozent_treffer | unit '%' | orElse '-'}}</td>
-									<td>{{player.rang_prozent_treffer | orElse '-'}}</td>
+									<td>{{player.prozent_treffer | unit('%') | orElse('-')}}</td>
+									<td>{{player.rang_prozent_treffer | orElse('-')}}</td>
 								</tr>
 								<tr>
 									<th>Trinkquote <sup>3</sup></th>
 									<td></td>
-									<td>{{player.quote_schluecke_mittel | number 2 | unit 'Ø' | orElse '-'}}</td>
-									<td>{{player.rang_quote_schluecke_mittel | orElse '-'}}</td>
+									<td>{{player.quote_schluecke_mittel | number(2) | unit('Ø') | orElse('-')}}</td>
+									<td>{{player.rang_quote_schluecke_mittel | orElse('-')}}</td>
 								</tr>
 								<tr>
 									<th>Spiele beendet</th>
@@ -52,7 +52,7 @@
 								</tr>
 								<tr>
 									<th>Bier getrunken</th>
-									<td>{{player.anzahl_spiele * 0.5 | number 1 | orElse '-'}} Liter</td>
+									<td>{{player.anzahl_spiele * 0.5 | number(1) | orElse('-')}} Liter</td>
 									<td></td>
 									<td></td>
 								</tr>
@@ -79,19 +79,19 @@
 							<tbody>
 								<tr>
 									<th>Bestleistung</th>
-									<td>{{player.quote_schluecke_beste | number 0 | orElse '-')}}</td>
+									<td>{{player.quote_schluecke_beste | number(0) | orElse('-')}}</td>
 								</tr>
 								<tr>
 									<th>Arith. Mittel</th>
-									<td>{{player.quote_schluecke_mittel | number 2 | orElse '-'}}</td>
+									<td>{{player.quote_schluecke_mittel | number(2) | orElse('-')}}</td>
 								</tr>
 								<tr>
 									<th>Median</th>
-									<td>{{player.quote_schluecke_median | number 1 | orElse '-'}}</td>
+									<td>{{player.quote_schluecke_median | number(1) | orElse('-')}}</td>
 								</tr>
 								<tr>
 									<th>Modus</th>
-									<td>{{player.quote_schluecke_modus | number 0 | orElse '-'}}</td>
+									<td>{{player.quote_schluecke_modus | number(0) | orElse('-')}}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -134,14 +134,13 @@ export default {
 			player : undefined,
 
 			recordListOptions : {
-				displayIcon : false,
 
 				sortOptions : [
-					{text : "Name", field : "name", order : 1, displayOrder : false},
-					{text : "Mannschaft", field : "mannschaft", order : 1, displayOrder : false},
-					{text : "Rang: FlunkYndex", field : "rang_flunky_index", order : 1, displayOrder : true},
-					{text : "Rang: Trefferquote", field : "rang_prozent_treffer", order : 1, displayOrder : true},
-					{text : "Rang: Trinkquote", field : "rang_quote_schluecke_mittel", order : 1, displayOrder : true}
+					{text : "Name", field : "name", order : 'asc', displayOrder : false},
+					{text : "Mannschaft", field : "mannschaft", order : 'asc', displayOrder : false},
+					{text : "Rang: FlunkYndex", field : "rang_flunky_index", order : 'asc', displayOrder : true},
+					{text : "Rang: Trefferquote", field : "rang_prozent_treffer", order : 'asc', displayOrder : true},
+					{text : "Rang: Trinkquote", field : "rang_quote_schluecke_mittel", order : 'asc', displayOrder : true}
 				],
 
 				mapping : {
@@ -171,7 +170,7 @@ export default {
 	},
 
 	components : {
-		RecordList, CircleImage, Chart
+		RecordList, Chart
 	}
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-	<canvas height="250" v-el:canvas></canvas>
+	<canvas height="250" ref="canvas"></canvas>
 </template>
 
 <script>
@@ -25,7 +25,7 @@ export default {
 
 	methods : {
 		createChart (data) {
-			return new Chart(this.$els.canvas.getContext("2d"), {
+			return new Chart(this.$refs.canvas.getContext("2d"), {
 			    type: 'line',
 			    data: {
 					labels : Array(data.length).fill(""),

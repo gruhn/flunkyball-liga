@@ -1,5 +1,5 @@
 <template>
-	<img v-if="src !== undefined" :src="viewportSrc" :alt="alt" :style="viewportStyle" class="img-responsive">
+	<img v-if="src !== undefined" :src="viewportSrc" :alt="alt" :style="" class="img-responsive">
 </template>
 
 <script>

@@ -9,18 +9,18 @@
 					<span class="icon-bar"></span>
 				</button>
 
-				<a class="navbar-brand" v-link="brandLink.link">
-					{{brandLink.text}}
-				</a>
+				<router-link :to="brandLink.route" class="navbar-brand">{{brandLink.text}}</router-link>
 			</div>
 
-			<div class="navbar-collapse" :transition="transition" v-show="!collapsed" v-bind:class="{'collapse' : collapsed}">
-				<ul class="nav navbar-nav navbar-right">
-					<li v-for="link in naviLinks">
-						<a v-link="link.link" @click="collapse(true)">{{link.text}}</a>
-					</li>
-				</ul>
-			</div>
+			<transition name="expand">
+				<div class="navbar-collapse" v-show="!collapsed" :class="{'collapse' : collapsed}"> 
+					<ul class="nav navbar-nav navbar-right">
+						<li v-for="link in naviLinks">
+							<router-link :to="link.route" @click="collapse(true)">{{link.text}}</router-link>
+						</li>
+					</ul>
+				</div>
+			</transition>
 		</div>
 	</nav>
 </template>
@@ -32,11 +32,11 @@ export default {
 			collapsed : true,
 
 			links : [
-				{text : 'Flunkyball Liga', link : {path : '/'}},
-				{text : 'Turniere', link : {path : '/turniere'}},
-				{text : 'Mannschaften', link : {path : '/mannschaften'}},
-				{text : 'Spieler', link : {path : '/spieler'}},
-				{text : 'Regelwerk', link : {path : '/regelwerk'}}
+				{text : 'Flunkyball Liga', route : {name : 'start'}},
+				{text : 'Turniere', route : {name : 'tournaments'}},
+				{text : 'Mannschaften', route : {name : 'teams'}},
+				{text : 'Spieler', route : {name : 'players'}},
+				{text : 'Regelwerk', route : {name : 'rules'}}
 			]
 		}
 	},
@@ -72,27 +72,21 @@ export default {
 	display: block;
 }
 
-.collapse-transition {
+.expand-enter {
+	transition: max-height .5s;
+	overflow: hidden;
+	max-height: 0px;
+}
+.expand-enter-active {
+	max-height: 500px;
+}
+
+.expand-leave {
 	transition: max-height .3s;
 	overflow: hidden;
 	max-height: 500px;
 }
-.collapse-leave {
-	max-height: 0px;
-}
-.collapse-enter {
-	max-height: 500px;
-}
-
-.expand-transition {
-	transition: max-height .5s;
-	overflow: hidden;
-	max-height: 500px;
-}
-.expand-leave {
-	max-height: 500px;
-}
-.expand-enter {
+.expand-leave-active {
 	max-height: 0px;
 }
 </style>

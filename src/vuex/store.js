@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import each from 'lodash/each'
-import merge from 'lodash/merge'
+import isArray from 'lodash/isArray'
 
 Vue.use(Vuex)
 
@@ -20,20 +20,19 @@ const store = new Vuex.Store({
 	mutations : {
 
 		'UPDATE_STATS' (state, statClass, idField, records) {
+			records = (isArray(records) ? records : [records])
+
 			let data = state.stats[statClass]
 
 			each(records, record => {
 				let id = record[idField]
-				/*let recordWatchable = {}
-
-				each(record, (val, key) => {
-					Vue.set(recordWatchable, key, val)
-				})*/
 
 				if (data[id] === undefined)
 					Vue.set(data, id, {})
 
-				data[id] = merge(data[id], recordWatchable)
+				each(record, (val, key) => {
+					Vue.set(data[id], key, val)
+				})
 			})
 		}
 

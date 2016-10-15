@@ -4,7 +4,7 @@
 			<h1>Mannschaften</h1>
 		</div>
 
-		<record-list :options="recordListOptions" :records="">
+		<record-list :options="recordListOptions" :records="teamList">
 			<!--<router-view></router-view>-->
 
 			<div v-if="team !== undefined" class="team-details">
@@ -31,31 +31,31 @@
 								<tr>
 									<th>Spiele gewonnen</th>
 									<td>{{team.spiele_gewonnen +' von '+ team.spiele_gespielt}}</td>
-									<td>{{team.spiele_gewonnen_prozent | unit '%'}}</td>
+									<td>{{team.spiele_gewonnen_prozent | unit('%')}}</td>
 									<td>{{team.rang_spiele_gewonnen_prozent}}</td>
 								</tr>
 								<tr>
 									<th>Fouls pro Spiel</th>
 									<td>{{team.fouls_insgesamt +' / '+ team.spiele_gespielt}}</td>
-									<td>{{team.quote_fouls_pro_spiel | number 2 | unit 'Ø' | orElse '-'}}</td>
+									<td>{{team.quote_fouls_pro_spiel | number(2) | unit('Ø') | orElse('-')}}</td>
 									<td>{{team.rang_quote_fouls_pro_spiel}}</td>
 								</tr>
 								<tr>
 									<th>Runden bis Sieg <sup>1</sup></th>
 									<td></td>
-									<td>{{team.quote_runden_bis_sieg_mittel | number 2 | unit 'Ø' | orElse '-'}}</td>
-									<td>{{team.rang_quote_runden_bis_sieg_mittel | orElse '-'}}</td>
+									<td>{{team.quote_runden_bis_sieg_mittel | number(2) | unit('Ø') | orElse('-')}}</td>
+									<td>{{team.rang_quote_runden_bis_sieg_mittel | orElse('-')}}</td>
 								</tr>
 								<tr>
 									<th>Punkte bei Sieg <sup>2</sup></th>
 									<td></td>
-									<td>{{team.quote_punkte_bei_sieg_mittel | number 2 | unit 'Ø' | orElse '-'}}</td>
-									<td>{{team.rang_quote_punkte_bei_sieg_mittel || '-'}}</td>
+									<td>{{team.quote_punkte_bei_sieg_mittel | number(2) | unit('Ø') | orElse('-')}}</td>
+									<td>{{team.rang_quote_punkte_bei_sieg_mittel | orElse('-')}}</td>
 								</tr>
 								<tr>
 									<th>SSP-Siege <sup>3</sup></th>
 									<td>{{team.spiele_startauswahl_gewonnen +' von '+ team.spiele_gespielt}}</td>
-									<td>{{team.spiele_startauswahl_gewonnen_prozent | unit '%' | orElse '-'}}</td>
+									<td>{{team.spiele_startauswahl_gewonnen_prozent | unit('%') | orElse('-')}}</td>
 									<td></td>
 								</tr>
 							</tbody>
@@ -78,20 +78,34 @@
 import RecordList from './RecordList'
 import CircleImage from './CircleImage'
 
+import { getTeams } from '../vuex/getters'
+import { loadTeams, loadTeamDetails } from '../vuex/actions'
+
 export default {
+	vuex : {
+		getters : {
+			teamList : getTeams
+		},
+
+		actions : {
+			loadTeams,
+			loadTeamDetails
+		}
+	},
+
 	data () {
+		console.log(this)
+
 		return {
 			team : undefined,
 
 			recordListOptions : {
-				displayIcon : true,
-
 				sortOptions : [
-					{text : "Name", field : "name", order : 1, displayOrder : false},
-					{text : "Rang: Spiele gewonnen", field : "rang_spiele_gewonnen_prozent", order : 1, displayOrder : true},
-					{text : "Rang: Fouls pro Spiel", field : "rang_quote_fouls_pro_spiel", order : 1, displayOrder : true},
-					{text : "Rang: Runden bis Sieg", field : "rang_quote_runden_bis_sieg_mittel", order : 1, displayOrder : true},
-					{text : "Rang: Punkte bei Sieg", field : "rang_quote_punkte_bei_sieg_mittel", order : 1, displayOrder : true}
+					{text : "Name", field : "name", order : 'asc', displayOrder : false},
+					{text : "Rang: Spiele gewonnen", field : "rang_spiele_gewonnen_prozent", order : 'asc', displayOrder : true},
+					{text : "Rang: Fouls pro Spiel", field : "rang_quote_fouls_pro_spiel", order : 'asc', displayOrder : true},
+					{text : "Rang: Runden bis Sieg", field : "rang_quote_runden_bis_sieg_mittel", order : 'asc', displayOrder : true},
+					{text : "Rang: Punkte bei Sieg", field : "rang_quote_punkte_bei_sieg_mittel", order : 'asc', displayOrder : true}
 				],
 
 				mapping : {
@@ -114,35 +128,25 @@ export default {
 
 	events : {
 		'record-list-click' (record) {
-			this.$http.get('mannschaften/'+record.mannschaft_id+'?pretty=0').then(
-				response => {
-					this.team = response.data
-				}
-			)
+			this.team = record
+			this.loadTeamDetails(record['mannschaft_id'])
 		}
 	},
 
-	/*created () {
+	created () {
 		this.loadTeams()
 	},
 
-	events : {
-		'record-list-click' (record) {
-			this.player = record
-			this.loadTeamDetails(record['mannschaft_id'])
-		}
-	},*/
-
 	methods : {
-		teamLogo (team) {
-			if (team.hat_logo)
-				return './static/team-logos/'+ team.mannschaft_id +'.png'
+		teamLogo ({hat_logo : hasLogo, mannschaft_id : id}) {
+			if (hasLogo)
+				return './static/team-logos/'+ id +'.png'
 			else
 				return './static/img/no-logo.png'
 		},
 
-		teamColor (team) {
-			return 'hsl('+((team.mannschaft_id * 30) % 361)+', 50%, 80%)'
+		teamColor ({mannschaft_id : id}) {
+			return 'hsl('+((id * 30) % 361)+', 50%, 80%)'
 		}
 	},
 
