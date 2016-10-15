@@ -29,30 +29,30 @@
 								<tr>
 									<th>FlunkYndex <sup>1</sup></th>
 									<td></td>
-									<td>{{player.flunky_index | number(2) | orElse('-')}}</td>
-									<td>{{player.rang_flunky_index | orElse('-')}}</td>
+									<td>{{player.flunky_index | number(2) | otherwise('-')}}</td>
+									<td>{{player.rang_flunky_index | otherwise('-')}}</td>
 								</tr>
 								<tr>
 									<th>Trefferquote <sup>2</sup></th>
-									<td>{{player.anzahl_treffer +' von '+ player.anzahl_wuerfe}}</td>
-									<td>{{player.prozent_treffer | unit('%') | orElse('-')}}</td>
-									<td>{{player.rang_prozent_treffer | orElse('-')}}</td>
+									<td>{{player.anzahl_treffer | otherwise('?')}} von {{player.anzahl_wuerfe | otherwise('?')}}</td>
+									<td>{{player.prozent_treffer | unit('%') | otherwise('-')}}</td>
+									<td>{{player.rang_prozent_treffer | otherwise('-')}}</td>
 								</tr>
 								<tr>
 									<th>Trinkquote <sup>3</sup></th>
 									<td></td>
-									<td>{{player.quote_schluecke_mittel | number(2) | unit('Ø') | orElse('-')}}</td>
-									<td>{{player.rang_quote_schluecke_mittel | orElse('-')}}</td>
+									<td>{{player.quote_schluecke_mittel | number(2) | unit('Ø') | otherwise('-')}}</td>
+									<td>{{player.rang_quote_schluecke_mittel | otherwise('-')}}</td>
 								</tr>
 								<tr>
 									<th>Spiele beendet</th>
-									<td>{{player.anzahl_fertige_spiele +' von '+ player.anzahl_spiele}}</td>
+									<td>{{player.anzahl_fertige_spiele | otherwise('?')}} von {{player.anzahl_spiele | otherwise('?')}}</td>
 									<td></td>
 									<td></td>
 								</tr>
 								<tr>
 									<th>Bier getrunken</th>
-									<td>{{player.anzahl_spiele * 0.5 | number(1) | orElse('-')}} Liter</td>
+									<td>{{player.anzahl_spiele * 0.5 | number(1) | otherwise('-')}} Liter</td>
 									<td></td>
 									<td></td>
 								</tr>
@@ -79,19 +79,19 @@
 							<tbody>
 								<tr>
 									<th>Bestleistung</th>
-									<td>{{player.quote_schluecke_beste | number(0) | orElse('-')}}</td>
+									<td>{{player.quote_schluecke_beste | number(0) | otherwise('-')}}</td>
 								</tr>
 								<tr>
 									<th>Arith. Mittel</th>
-									<td>{{player.quote_schluecke_mittel | number(2) | orElse('-')}}</td>
+									<td>{{player.quote_schluecke_mittel | number(2) | otherwise('-')}}</td>
 								</tr>
 								<tr>
 									<th>Median</th>
-									<td>{{player.quote_schluecke_median | number(1) | orElse('-')}}</td>
+									<td>{{player.quote_schluecke_median | number(1) | otherwise('-')}}</td>
 								</tr>
 								<tr>
 									<th>Modus</th>
-									<td>{{player.quote_schluecke_modus | number(0) | orElse('-')}}</td>
+									<td>{{player.quote_schluecke_modus | number(0) | otherwise('-')}}</td>
 								</tr>
 							</tbody>
 						</table>

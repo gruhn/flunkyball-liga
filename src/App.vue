@@ -19,10 +19,14 @@ import store from './vuex/store'
 import MainNavi from './components/MainNavi'
 import Banner from './components/Banner'
 import PageFooter from './components/PageFooter'
-import padStart from 'lodash/padStart'
 
+Vue.filter('otherwise', function (val, alt) {
+	if (val === undefined || val === null || val === NaN)
+		return alt
+	return val
+})
 Vue.filter('unit', function (number, unit) {
-	if (number == undefined)
+	if (number == undefined || number == NaN)
 		return undefined
 
 	if (('%€$').includes(unit))
@@ -32,17 +36,8 @@ Vue.filter('unit', function (number, unit) {
 	else
 		return number
 })
-Vue.filter('pad', function (number, size) {
-	return padStart(number+"", size, '0')
-})
-Vue.filter('orElse', function (value, altValue) {
-	if (value == undefined)
-		return altValue
-
-	return value
-})
 Vue.filter('number', function (number, digits) {
-	if (number == undefined)
+	if (number == undefined || number == NaN)
 		return undefined
 
 	if (digits !== undefined)
@@ -51,7 +46,7 @@ Vue.filter('number', function (number, digits) {
 	return number.replace('.', ',')
 })
 Vue.filter('date', function (dateString) {
-	if (dateString == undefined)
+	if (dateString == undefined || dateString == NaN)
 		return undefined
 
 	let format = ""

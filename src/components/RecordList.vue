@@ -3,7 +3,7 @@
 		<aside class="col-xs-12 col-sm-4" :class="{'hidden-xs' : isAnyActive}">
 
 			<div class="form-group has-feedback" v-if="filterable">
-				<label>Filtern</label>
+				<label>Suchen</label>
 				<input
 					v-model="filter"
 					type="text"

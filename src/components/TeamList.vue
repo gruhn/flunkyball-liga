@@ -30,32 +30,32 @@
 							<tbody>
 								<tr>
 									<th>Spiele gewonnen</th>
-									<td>{{team.spiele_gewonnen +' von '+ team.spiele_gespielt}}</td>
-									<td>{{team.spiele_gewonnen_prozent | unit('%')}}</td>
-									<td>{{team.rang_spiele_gewonnen_prozent}}</td>
+									<td>{{team.spiele_gewonnen | otherwise('?')}} von {{team.spiele_gespielt | otherwise('?')}}</td>
+									<td>{{team.spiele_gewonnen_prozent | unit('%') | otherwise('-')}}</td>
+									<td>{{team.rang_spiele_gewonnen_prozent || '-'}}</td>
 								</tr>
 								<tr>
 									<th>Fouls pro Spiel</th>
-									<td>{{team.fouls_insgesamt +' / '+ team.spiele_gespielt}}</td>
-									<td>{{team.quote_fouls_pro_spiel | number(2) | unit('Ø') | orElse('-')}}</td>
-									<td>{{team.rang_quote_fouls_pro_spiel}}</td>
+									<td>{{team.fouls_insgesamt | otherwise('?')}} / {{team.spiele_gespielt | otherwise('?')}}</td>
+									<td>{{team.quote_fouls_pro_spiel | number(2) | unit('Ø') | otherwise('-')}}</td>
+									<td>{{team.rang_quote_fouls_pro_spiel | otherwise('-')}}</td>
 								</tr>
 								<tr>
 									<th>Runden bis Sieg <sup>1</sup></th>
 									<td></td>
-									<td>{{team.quote_runden_bis_sieg_mittel | number(2) | unit('Ø') | orElse('-')}}</td>
-									<td>{{team.rang_quote_runden_bis_sieg_mittel | orElse('-')}}</td>
+									<td>{{team.quote_runden_bis_sieg_mittel | number(2) | unit('Ø') | otherwise('-')}}</td>
+									<td>{{team.rang_quote_runden_bis_sieg_mittel | otherwise('-')}}</td>
 								</tr>
 								<tr>
 									<th>Punkte bei Sieg <sup>2</sup></th>
 									<td></td>
-									<td>{{team.quote_punkte_bei_sieg_mittel | number(2) | unit('Ø') | orElse('-')}}</td>
-									<td>{{team.rang_quote_punkte_bei_sieg_mittel | orElse('-')}}</td>
+									<td>{{team.quote_punkte_bei_sieg_mittel | number(2) | unit('Ø') | otherwise('-')}}</td>
+									<td>{{team.rang_quote_punkte_bei_sieg_mittel | otherwise('-')}}</td>
 								</tr>
 								<tr>
 									<th>SSP-Siege <sup>3</sup></th>
-									<td>{{team.spiele_startauswahl_gewonnen +' von '+ team.spiele_gespielt}}</td>
-									<td>{{team.spiele_startauswahl_gewonnen_prozent | unit('%') | orElse('-')}}</td>
+									<td>{{team.spiele_startauswahl_gewonnen | otherwise('?')}} von {{team.spiele_gespielt | otherwise('?')}}</td>
+									<td>{{team.spiele_startauswahl_gewonnen_prozent | unit('%') | otherwise('-')}}</td>
 									<td></td>
 								</tr>
 							</tbody>
@@ -77,9 +77,9 @@
 <script>
 import RecordList from './RecordList'
 import CircleImage from './CircleImage'
-
 import { getTeams } from '../vuex/getters'
 import { loadTeams, loadTeamDetails } from '../vuex/actions'
+import get from 'lodash/get'
 
 export default {
 	vuex : {
@@ -136,6 +136,8 @@ export default {
 	},
 
 	methods : {
+		get : get,
+
 		handleRecordClick (record) {
 			this.team = record
 			this.loadTeamDetails(record['mannschaft_id'])
