@@ -4,7 +4,7 @@
 			<h1>Spieler</h1>
 		</div>
 
-		<record-list :options="recordListOptions" :records="playerList">
+		<record-list :options="recordListOptions" :records="playerList" @record-click="handleRecordClick">
 			<!--<router-view></router-view>-->
 
 			<div v-if="player !== undefined">
@@ -162,8 +162,8 @@ export default {
 		this.loadPlayers()
 	},
 
-	events : {
-		'record-list-click' (record) {
+	methods : {
+		handleRecordClick (record) {
 			this.player = record
 			this.loadPlayerDetails(record['spieler_id'])
 		}

@@ -4,7 +4,7 @@
 			<h1>Turniere</h1>
 		</div>
 
-		<record-list :options="recordListOptions" :records="tournamentList">
+		<record-list :options="recordListOptions" :records="tournamentList" @record-click="handleRecordClick">
 			<!--<router-view></router-view>-->
 
 			<h2>
@@ -97,8 +97,8 @@ export default {
 		}
 	},
 
-	events : {
-		'record-list-click' (record) {
+	methods : {
+		handleRecordClick (record) {
 			this.tournament = record
 			this.loadTournamentDetails(record['turnier_id'])
 		}

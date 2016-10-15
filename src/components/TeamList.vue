@@ -4,7 +4,7 @@
 			<h1>Mannschaften</h1>
 		</div>
 
-		<record-list :options="recordListOptions" :records="teamList">
+		<record-list :options="recordListOptions" :records="teamList" @record-click="handleRecordClick">
 			<!--<router-view></router-view>-->
 
 			<div v-if="team !== undefined" class="team-details">
@@ -126,18 +126,16 @@ export default {
 		}
 	},
 
-	events : {
-		'record-list-click' (record) {
-			this.team = record
-			this.loadTeamDetails(record['mannschaft_id'])
-		}
-	},
-
 	created () {
 		this.loadTeams()
 	},
 
 	methods : {
+		handleRecordClick (record) {
+			this.team = record
+			this.loadTeamDetails(record['mannschaft_id'])
+		},
+
 		teamLogo ({hat_logo : hasLogo, mannschaft_id : id}) {
 			if (hasLogo)
 				return './static/team-logos/'+ id +'.png'

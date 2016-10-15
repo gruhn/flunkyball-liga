@@ -105,7 +105,7 @@ export default {
 	methods : {
 		handleRecordClick (record) {
 			this.selected = record
-			this.$emit('record-list-click', record)
+			this.$emit('record-click', record)
 		},
 
 		includesString (string) {
