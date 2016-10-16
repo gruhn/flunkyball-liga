@@ -38,11 +38,11 @@
 								</thead>
 								<tbody>
 									<tr v-for="spiel in phase.spiele">
-										<td :class="{'info' : isStarterWinner(spiel)}" class="text-center">{{spiel.starter_name}}</td>
-										<td class="text-center">
+										<td :class="{'info' : isStarterWinner(spiel)}" class="match-team">{{spiel.starter_name}}</td>
+										<td class="match-points">
 											{{spiel.starter_spieler_fertig}} : {{spiel.gegner_spieler_fertig}}
 										</td>
-										<td :class="{'info' : isGegnerWinner(spiel)}" class="text-center">{{spiel.gegner_name}}</td>
+										<td :class="{'info' : isGegnerWinner(spiel)}" class="match-team">{{spiel.gegner_name}}</td>
 									</tr>
 								</tbody>
 							</table>
@@ -133,4 +133,14 @@ export default {
 </script>
 
 <style scoped>
+.match-team, .match-points {
+	text-align: center;
+}
+.match-team {
+	width: 45%;
+}
+.match-points {
+	width: 10%;
+	min-width: 30px;
+}
 </style>
