@@ -1,6 +1,7 @@
 import Vue from 'vue'
-import groupBy from 'lodash/groupBy'
-import mapValues from 'lodash/mapValues'
+import flow from 'lodash/fp/flow'
+import groupBy from 'lodash/fp/groupBy'
+import map from 'lodash/fp/map'
 
 function apiGet (resource, callback) {
 	Vue.http.get(resource + '?pretty=0').then(
@@ -54,71 +55,39 @@ export function loadTournamentDetails (store, id) {
 	})
 
 	apiGet('turniere/'+id+'/spiele', (data) => {
-
-		let xs = data
-
-		xs = groupBy(xs, item => {
-			if (item.turnierphase_id === 5)
-				return item.gruppe + item.rueckspiel
-			else
-				return "P"+ item.turnierphasen_index
-		})
-
-		xs = mapValues(xs, matches => {matchList : matches})
-		xs = mapValues(xs, group => {
-			if (group.turnierphase_id === 5) {
-				group.name = 'Gruppe '+ item.gruppe
-
-				if (item.rueckspiel > 1)
-					group.rueckrunde = "Rückrunde "+ item.rueckspiel
-				else if (item.rueckspiel === 1)
-					group.rueckspiel = "Rückrunde"
+		let matchesGrouped = flow(
+			groupBy(match => {
+				if (match.turnierphase_id === 5)
+					return match.gruppe + match.rueckspiel
 				else
-					group.rueckspiel = ""
-			} else {
-				group.name = item.turnierphase
-				group.rueckrunde = ""
-			}
-		})
-
-		/*let matchGroups = {}
-
-		response.data.forEach(item => {
-			var phase = "P"+item.turnierphasen_index;
-			if (item.turnierphase_id == 5)
-				phase += item.gruppe + item.rueckspiel;
-
-			if (matchGroups[phase] == undefined) {
-				matchGroups[phase] = {};
-				matchGroups[phase].matchList = [];
-				matchGroups[phase].key = phase;
-
-				if (item.turnierphase_id == 5) {
-					matchGroups[phase].name = 'Gruppe ' + item.gruppe;
-
-					if (item.rueckspiel > 1)
-						matchGroups[phase].rueckrunde = "Rückrunde "+ item.rueckspiel;
-					else if (item.rueckspiel === 1)
-						matchGroups[phase].rueckrunde = "Rückrunde";
-					else
-						matchGroups[phase].rueckrunde = "";
-				} else {
-					matchGroups[phase].name = item.turnierphase;
-					matchGroups[phase].rueckrunde = "";
+					return "P"+ match.turnierphasen_index
+			}),
+			map(matchList => {
+				let match = matchList[0]
+				let group = {
+					spiele : matchList,
+					name : match.turnierphase,
+					rueckspiel : ""
 				}
 
-			}
+				if (match.turnierphase_id === 5) {
+					group.name = 'Gruppe '+ match.gruppe
 
-			matchGroups[phase].matchList.push(item);
-		})
+					if (match.rueckspiel > 1)
+						group.rueckrunde = "Rückrunde "+ match.rueckspiel
+					else if (match.rueckspiel === 1)
+						group.rueckspiel = "Rückrunde"
+					else
+						group.rueckspiel = ""
+				}
 
-		matchGroups.keys().forEach(item => {
-			me.matchesGrouped.push(item);
-		})*/
+				return group
+			})
+		)(data)
 
-		/*store.dispatch('UPDATE_STATS', 'tournaments', 'turnier_id', {
+		store.dispatch('UPDATE_STATS', 'tournaments', 'turnier_id', {
 			'turnier_id' : id,
-			'spiele' : [] // TODO
-		})*/
+			'phasen' : matchesGrouped
+		})
 	})
 }

@@ -93,7 +93,7 @@ export default {
 			return flow(
 				reject([this.sorting.field, null]),
 				filter(this.includesString(this.filter)),
-				orderBy([this.sorting.field, this.sorting.order], [])
+				orderBy([this.sorting.field], [this.sorting.order])
 			)(this.records)
 		},
 
