@@ -9,8 +9,8 @@
 					Mit dem 26. Juni 2015 wurden erstmals die statistischen Daten eines Flunkyball-Turniers
 					erfasst und hier veröffentlicht. Seither wurden <strong>{{stats.anzahl_turniere}} Turniere</strong>
 					aufgezeichnet, an denen zusammen <strong>{{stats.anzahl_teilnehmer_total}} Spieler</strong>
-					teilgenommen haben, mit insgesamt <strong>{{stats.anzahl_spiele_total}} Spielen</strong>,
-					in denen <strong>{{stats.anzahl_spiele_total * 5}} Liter</strong> Bier vertilgt wurden.
+					teilgenommen haben, und in denen <strong>{{stats.anzahl_spiele_total * 5}} Liter</strong>
+					Bier vertilgt wurden.
 				</p>
 			</div>
 
@@ -60,7 +60,7 @@ export default {
 				'anzahl_spiele_total' : 0
 			},
 
-			images : { ///...
+			images : {
 				'large' : './static/img/separator-lg.jpg',
 				'middle' : './static/img/separator-md.jpg',
 				'small' : './static/img/separator-sm.jpg',
@@ -100,7 +100,7 @@ export default {
 	font-size: 20px;
 	line-height: 2;
 
-	font-family: "Josefin Sans";
+	font-family: "Josefin Sans", sans-serif;
 	text-align: center;
 
 	background-color: #fff;
@@ -139,6 +139,10 @@ section {
 	padding: 40px 0px;
 	overflow: auto;
 	text-align: center;
+}
+
+strong {
+	white-space: nowrap;
 }
 
 /*.section-separator {
