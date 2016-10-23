@@ -13,12 +13,12 @@ const store = new Vuex.Store({
 			teams : {},
 			players : {},
 			tournaments : {}
-		}
+		},
 
+		bannerImages : []
 	},
 
 	mutations : {
-
 		'UPDATE_STATS' (state, statClass, idField, records) {
 			records = (isArray(records) ? records : [records])
 
@@ -34,8 +34,11 @@ const store = new Vuex.Store({
 					Vue.set(data[id], key, val)
 				})
 			})
-		}
+		},
 
+		'SET_BANNER_IMAGES' (state, images) {
+			state.bannerImages = images
+		}
 	}
 })
 

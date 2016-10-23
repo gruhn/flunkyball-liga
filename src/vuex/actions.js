@@ -3,13 +3,27 @@ import flow from 'lodash/fp/flow'
 import groupBy from 'lodash/fp/groupBy'
 import map from 'lodash/fp/map'
 
+let apiCallHistory = {} // stupid cache
+
 function apiGet (resource, callback) {
-	Vue.http.get(resource + '?pretty=0').then(
-		({data : data}) => {
-			if (data != undefined)
-				callback(data)
-		}
-	)
+	if (!apiCallHistory[resource]) {
+		Vue.http.get(resource + '?pretty=0').then(
+			({data : data}) => {
+				if (data != undefined) {
+					apiCallHistory[resource] = true
+					callback(data)
+				} else {
+					apiCallHistory[resource] = false
+				}
+			}
+		)
+	}
+}
+
+export function loadBannerImages (store) {
+	apiGet('turniere/fotos', (data) => {
+		store.dispatch('SET_BANNER_IMAGES', data)
+	})
 }
 
 export function loadPlayers (store) {

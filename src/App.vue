@@ -117,9 +117,6 @@ p {
 #app.landing-page > header {
 	height: 0%;
 }
-#app.landing-page > header #banner > div {
-	/*background-position: center center;*/
-}
 #app.landing-page > main {
 	min-height: 100%;
 	background-color: #000;

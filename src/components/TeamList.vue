@@ -4,87 +4,21 @@
 			<h1>Mannschaften</h1>
 		</div>
 
-		<record-list :options="recordListOptions" :records="teamList" @record-click="handleRecordClick">
-			<!--<router-view></router-view>-->
-
-			<div v-if="team !== undefined" class="team-details">
-				<circle-image :src="teamLogo(team)" :color="teamColor(team)" size="160"></circle-image>
-
-				<h2>{{team.name}}</h2>
-
-				<h3>Statistik</h3>
-
-				<div class="panel panel-default">
-					<div class="panel-heading">Übersicht</div>
-
-					<div class="table-responsive">
-						<table class="table">
-							<thead>
-								<tr>
-									<th></th>
-									<th><span class="sr-only">Werte</span></th>
-									<th><span class="sr-only">Quote</span></th>
-									<th><span class="glyphicon-podium"></span></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<th>Spiele gewonnen</th>
-									<td>{{team.spiele_gewonnen | otherwise('?')}} von {{team.spiele_gespielt | otherwise('?')}}</td>
-									<td>{{team.spiele_gewonnen_prozent | unit('%') | otherwise('-')}}</td>
-									<td>{{team.rang_spiele_gewonnen_prozent || '-'}}</td>
-								</tr>
-								<tr>
-									<th>Fouls pro Spiel</th>
-									<td>{{team.fouls_insgesamt | otherwise('?')}} / {{team.spiele_gespielt | otherwise('?')}}</td>
-									<td>{{team.quote_fouls_pro_spiel | number(2) | unit('Ø') | otherwise('-')}}</td>
-									<td>{{team.rang_quote_fouls_pro_spiel | otherwise('-')}}</td>
-								</tr>
-								<tr>
-									<th>Runden bis Sieg <sup>1</sup></th>
-									<td></td>
-									<td>{{team.quote_runden_bis_sieg_mittel | number(2) | unit('Ø') | otherwise('-')}}</td>
-									<td>{{team.rang_quote_runden_bis_sieg_mittel | otherwise('-')}}</td>
-								</tr>
-								<tr>
-									<th>Punkte bei Sieg <sup>2</sup></th>
-									<td></td>
-									<td>{{team.quote_punkte_bei_sieg_mittel | number(2) | unit('Ø') | otherwise('-')}}</td>
-									<td>{{team.rang_quote_punkte_bei_sieg_mittel | otherwise('-')}}</td>
-								</tr>
-								<tr>
-									<th>SSP-Siege <sup>3</sup></th>
-									<td>{{team.spiele_startauswahl_gewonnen | otherwise('?')}} von {{team.spiele_gespielt | otherwise('?')}}</td>
-									<td>{{team.spiele_startauswahl_gewonnen_prozent | unit('%') | otherwise('-')}}</td>
-									<td></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-
-				<div class="small">
-					<p><sup>1</sup> Die Anzahl Spielrunden, die eine Mannschaft braucht, um zu gewinnen.</p>
-					<p><sup>2</sup> Punkte entsprechen der Anzahl Spieler, die am Ende eines Spiels in der gegnerischen Mannschaft noch übrig sind.</p>
-					<p><sup>3</sup> Wie oft die Mannschaft bei der Startauswahl gewinnt. Die Startauswahl wird durch Schere-Stein-Papier (SSP) entschieden.</p>
-				</div>
-			</div>
-
-		</record-list>
+		<record-menu :options="recordListOptions" :records="teamList"></record-menu>
 	</div>
 </template>
 
 <script>
-import RecordList from './RecordList'
+import RecordMenu from './RecordMenu'
 import CircleImage from './CircleImage'
-import { getTeams } from '../vuex/getters'
+import { getRecords } from '../vuex/getters'
 import { loadTeams, loadTeamDetails } from '../vuex/actions'
-import get from 'lodash/get'
+import { teamLogo, teamColor } from '../util'
 
 export default {
 	vuex : {
 		getters : {
-			teamList : getTeams
+			teamList : getRecords('teams')
 		},
 
 		actions : {
@@ -97,8 +31,6 @@ export default {
 		let self = this
 
 		return {
-			team : undefined,
-
 			recordListOptions : {
 				sortOptions : [
 					{text : "Name", field : "name", order : 'asc', displayOrder : false},
@@ -107,6 +39,10 @@ export default {
 					{text : "Rang: Runden bis Sieg", field : "rang_quote_runden_bis_sieg_mittel", order : 'asc', displayOrder : true},
 					{text : "Rang: Punkte bei Sieg", field : "rang_quote_punkte_bei_sieg_mittel", order : 'asc', displayOrder : true}
 				],
+
+				isAnyActive () {
+					return self.$route.name === 'team' 
+				},
 
 				mapping : {
 					text (record, sorting) {
@@ -117,6 +53,10 @@ export default {
 						text += record.name
 
 						return text
+					},
+
+					route ({mannschaft_id : id}) {
+						return {name: 'team', params: {id: id}}
 					},
 
 					iconUrl (record) {
@@ -136,27 +76,11 @@ export default {
 	},
 
 	methods : {
-		get : get,
-
-		handleRecordClick (record) {
-			this.team = record
-			this.loadTeamDetails(record['mannschaft_id'])
-		},
-
-		teamLogo ({hat_logo : hasLogo, mannschaft_id : id}) {
-			if (hasLogo)
-				return './static/team-logos/'+ id +'.png'
-			else
-				return './static/img/no-logo.png'
-		},
-
-		teamColor ({mannschaft_id : id}) {
-			return 'hsl('+((id * 30) % 361)+', 50%, 80%)'
-		}
+		teamColor, teamLogo
 	},
 
 	components : {
-		RecordList, CircleImage
+		RecordMenu, CircleImage
 	}
 }
 </script>
@@ -164,9 +88,5 @@ export default {
 <style>
 .circle-image {
 	margin-right: 10px;
-}
-
-.team-details .circle-image {
-	margin: 0px auto;
 }
 </style>

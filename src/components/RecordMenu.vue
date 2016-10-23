@@ -1,6 +1,6 @@
 <template>
 	<div class="row">
-		<aside class="col-xs-12 col-sm-4" :class="{'hidden-xs' : isAnyActive}">
+		<aside class="col-xs-12 col-sm-4" :class="{'hidden-xs' : options.isAnyActive()}">
 
 			<div class="form-group has-feedback" v-if="filterable">
 				<label>Suchen</label>
@@ -24,11 +24,13 @@
 			</div>
 
 			<div class="list-group">
-				<a  v-for="(record, index) in filteredRecords"
-					@click="handleRecordClick(record)"
-					:class="{'active' : isActive(record)}"
-					class="list-group-item">
-
+				<router-link
+					:to="options.mapping.route(record)"
+					class="list-group-item"
+					active-class="active"
+					v-for="(record, index) in filteredRecords"
+					exact
+				>
 					<circle-image
 						v-if="displayIcon"
 						:src="options.mapping.iconUrl(record)"
@@ -37,13 +39,12 @@
 					></circle-image>
 					<div class="record-text" v-html="options.mapping.text(record, sorting)"></div>
 					<div class="glyphicon glyphicon-menu-right text-right"></div>
-
-				</a>
+				</router-link>
 			</div>
 		</aside>
 
-		<div class="col-xs-12 col-sm-8" v-if="isAnyActive">
-			<slot></slot>
+		<div class="col-xs-12 col-sm-8">
+			<router-view></router-view>
 		</div>
 	</div>
 </template>
@@ -69,7 +70,6 @@ export default {
 
 	data () {
 		return {
-			selected : undefined,
 			filter : "",
 			sorting : this.options.sortOptions[0],
 		}
@@ -86,7 +86,7 @@ export default {
 		},
 
 		sortable () {
-			return true
+			return this.options.sortOptions.length >= 2
 		},
 
 		filteredRecords () {
@@ -98,16 +98,11 @@ export default {
 		},
 
 		isAnyActive () {
-			return this.selected !== undefined
+			return true
 		}
 	},
 
 	methods : {
-		handleRecordClick (record) {
-			this.selected = record
-			this.$emit('record-click', record)
-		},
-
 		includesString (string) {
 			return flow(
 				filter(isString),
@@ -116,10 +111,6 @@ export default {
 					this.filter.toLowerCase()
 				))
 			)
-		},
-
-		isActive (record) {
-			return this.selected === record
 		}
 	},
 

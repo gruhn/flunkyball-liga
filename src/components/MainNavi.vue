@@ -12,11 +12,11 @@
 				<router-link :to="brandLink.route" class="navbar-brand">{{brandLink.text}}</router-link>
 			</div>
 
-			<transition name="expand">
+			<transition name="expand">-->
 				<div class="navbar-collapse" v-show="!collapsed" :class="{'collapse' : collapsed}">
 					<ul class="nav navbar-nav navbar-right">
 						<li v-for="link in naviLinks">
-							<router-link :to="link.route" @click="collapse(true)">{{link.text}}</router-link>
+							<router-link :to="link.route">{{link.text}}</router-link>
 						</li>
 					</ul>
 				</div>
@@ -55,6 +55,12 @@ export default {
 		}
 	},
 
+	watch : {
+		'$route' () {
+			this.collapse(true)
+		}
+	},
+
 	methods : {
 		collapse (collapse) {
 			this.collapsed = collapse
@@ -74,13 +80,14 @@ export default {
 
 .navbar-collapse {
 	overflow: hidden;
+	max-height: 500px;
 }
 
 .expand-enter-active {
 	animation: expand .5s;
 }
 .expand-leave-active {
-	animation: collapse .35s;
+	animation: collapse .2s;
 }
 
 @keyframes expand {
@@ -99,5 +106,4 @@ export default {
 		max-height: 0px;
 	}
 }
-
 </style>
