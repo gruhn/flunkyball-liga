@@ -12,8 +12,8 @@
 
 <script>
 export default {
-	computed: {
-		year() {
+	computed : {
+		year () {
 			return new Date().getFullYear()
 		}
 	}
