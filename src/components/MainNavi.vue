@@ -83,6 +83,10 @@ export default {
 	max-height: 500px;
 }
 
+.navbar-fixed-top {
+	backface-visibility: hidden;
+}
+
 .expand-enter-active {
 	animation: expand .5s;
 }

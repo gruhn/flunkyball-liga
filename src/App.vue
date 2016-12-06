@@ -108,6 +108,7 @@ p {
 #app > main {
 	min-height: 60%;
 	position: relative;
+	background-color: #fff;
 }
 #app > header {
 	height: 40%;

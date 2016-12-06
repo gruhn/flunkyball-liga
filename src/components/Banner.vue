@@ -1,12 +1,19 @@
 <template>
 	<div id="banner">
-		<div :style="diaStyle"></div>
-		<!--<responsive-image :src="currentPicture"></responsive-image>-->
+		<div class="banner-image" aria-hidden="true" :style="diaStyle"></div>
+
+		<!--<transition name="banner-fade">
+			<img
+				v-for="(dia, idx) in dias"
+				v-if="diaPointer === idx"
+				:src="dia[deviceClass.name]"
+				alt="Panorama-Banner"
+				class="banner-image">
+		</transition>-->
 	</div>
 </template>
 
 <script>
-//import ResponsiveImage from './ResponsiveImage'
 import get from 'lodash/get'
 import deviceClass from '../mixins/device-class'
 import { loadBannerImages } from '../vuex/actions'
@@ -27,12 +34,16 @@ export default {
 
 	computed : {
 		diaStyle () {
-			let diaSource = get(this, 'dias['+ this.diaPointer +'].'+ this.deviceClass.name, '')
+			let src = get(this, 'dias['+ this.diaPointer +'].'+ this.deviceClass.name, '')
 
 			return {
-				'background-image' : 'url('+ diaSource +')'
+				'background-image' : 'url('+ src +')'
 			}
-		}
+		},
+
+		/*diaSource () {
+			return get(this, 'dias['+ this.diaPointer +'].'+ this.deviceClass.name, '')
+		}*/
 	},
 
 	data () {
@@ -43,41 +54,30 @@ export default {
 
 	methods : {
 		nextDia () {
-			this.diaPointer = (diaPointer + 1) % pictures.length
+			this.gotoDia(this.diaPointer + 1)
+		},
+
+		prevDia () {
+			this.gotoDia(this.diaPointer - 1)
+		},
+
+		gotoDia (index) {
+			this.diaPointer = (Math.abs(index) * this.dias.length + index) % this.dias.length
 		}
 	},
 
 	created () {
 		this.loadBannerImages()
-	},
 
-	/*components : {
-		ResponsiveImage
-	}*/
+		//setInterval(this.nextDia, 11000)
+	}
 }
 </script>
 
 <style>
-#banner, #banner > div {
+#banner {
 	position: absolute;
-	top: 0px;
-	right: 0px;
-	bottom: 0px;
-	left: 0px;
-}
-#banner > div {
 	top: 50px;
-
-	background-color: #e3e3e3;
-	background-position: center center;
-	background-size: auto;
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-}
-
-/*#banner {
-	position: absolute;
-	top: 0px;
 	right: 0px;
 	bottom: 0px;
 	left: 0px;
@@ -85,24 +85,74 @@ export default {
 	overflow: hidden;
 }
 
-#banner > .img-responsive {
+.banner-image {
+    position: fixed;
+	/*top: 0;
+	left: 0;
+	right: 0;*/
+	width: 100%;
+	height: 40%; /* = header height */
+
+    background-color: #e3e3e3;
+    background-repeat: no-repeat;
+	background-position: 50% 33%;
+    background-size: cover;
+
+    will-change: transform;
+    z-index: -1;
+}
+
+/*.banner-image {
+	z-index: 10;
+
 	position: absolute;
-	max-width: none;
+	display: block;
+
+	min-width: 120%;
+	min-height: 300%;
+
+	animation-name: bannerMove;
+	animation-duration: 22s;
+	animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.banner-fade-enter {
+	opacity: 1;
+}
+.banner-fade-enter-active {
+	opacity: 0;
+}
+.banner-fade-leave {
+	opacity: 0;
+}
+.banner-fade-leave-active {
+	opacity: 1;
 }
 
 @media (min-width: 768px) {
-	#banner > .img-responsive {
-		top: -20%;
+	.banner-image {
 	}
 }
 @media (min-width: 992px) {
-	#banner > .img-responsive {
-		top: -40%;
+	.banner-image {
 	}
 }
 @media (min-width: 1200px) {
-	#banner > .img-responsive {
-		top: -60%;
+	.banner-image {
+
+	}
+}
+
+@keyframes bannerMove {
+	0% {
+		top: -50%;
+		left: -10%;
+	}
+
+ 	100% {
+		top: -150%;
+		left: -20%;
 	}
 }*/
 </style>
