@@ -3,8 +3,9 @@
 		<aside class="col-xs-12 col-sm-4" :class="{'hidden-xs' : options.isAnyActive()}">
 
 			<div class="form-group has-feedback" v-if="filterable">
-				<label>Suchen</label>
+				<label for="RecordMenuFilterField">Suchen</label>
 				<input
+					id="RecordMenuFilterField"
 					v-model="filter"
 					type="text"
 					class="form-control input-sm">
@@ -12,8 +13,9 @@
 			</div>
 
 			<div class="form-group" v-if="sortable">
-				<label>Sortieren nach</label>
+				<label for="RecordMenuSortingField">Sortieren nach</label>
 				<select
+					id="RecordMenuSortingField"
 					v-model="sorting"
 					type="text"
 					class="form-control input-sm">
@@ -29,8 +31,7 @@
 					class="list-group-item"
 					active-class="active"
 					v-for="(record, index) in filteredRecords"
-					exact
-				>
+					exact>
 					<circle-image
 						v-if="displayIcon"
 						:src="options.mapping.iconUrl(record)"
@@ -137,5 +138,9 @@ export default {
 
 a {
 	cursor: pointer;
+}
+
+.affix-top {
+
 }
 </style>

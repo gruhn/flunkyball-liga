@@ -6,7 +6,7 @@
 			<div class="container">
 				<p>
 					Flunkyball-Liga.org ist ein Projekt zur Förderung der großartigen Sportart Flunkyball.
-					Mit dem 26. Juni 2015 wurden erstmals die statistischen Daten eines Flunkyball-Turniers
+					Mit dem <strong>26. Juni 2015</strong> wurden erstmals die statistischen Daten eines Flunkyball-Turniers
 					erfasst und hier veröffentlicht. Seither wurden <strong>{{stats.anzahl_turniere}} Turniere</strong>
 					aufgezeichnet, an denen zusammen <strong>{{stats.anzahl_teilnehmer_total}} Spieler</strong>
 					teilgenommen haben, und in denen <strong>{{stats.anzahl_spiele_total * 5}} Liter</strong>
