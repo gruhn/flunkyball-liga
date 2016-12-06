@@ -65,11 +65,13 @@
 
 <script>
 import CircleImage from './CircleImage'
-import { teamColor, teamLogo } from '../util'
+import teamDesign from '../mixins/team-design'
 import { getRecordByID } from '../vuex/getters'
 import { loadTeamDetails } from '../vuex/actions'
 
 export default {
+	mixins : [teamDesign],
+
 	vuex : {
 		getters : {
 			get : getRecordByID('teams')
@@ -93,10 +95,6 @@ export default {
 	},
 	created () {
 		this.loadTeamDetails(this.$route.params.id)
-	},
-
-	methods : {
-		teamLogo, teamColor
 	},
 
 	components : {

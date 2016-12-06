@@ -13,9 +13,11 @@ import RecordMenu from './RecordMenu'
 import CircleImage from './CircleImage'
 import { getRecords } from '../vuex/getters'
 import { loadTeams, loadTeamDetails } from '../vuex/actions'
-import { teamLogo, teamColor } from '../util'
+import teamDesign from '../mixins/team-design'
 
 export default {
+	mixins : [teamDesign],
+
 	vuex : {
 		getters : {
 			teamList : getRecords('teams')
@@ -41,7 +43,7 @@ export default {
 				],
 
 				isAnyActive () {
-					return self.$route.name === 'team' 
+					return self.$route.name === 'team'
 				},
 
 				mapping : {
@@ -73,10 +75,6 @@ export default {
 
 	created () {
 		this.loadTeams()
-	},
-
-	methods : {
-		teamColor, teamLogo
 	},
 
 	components : {
