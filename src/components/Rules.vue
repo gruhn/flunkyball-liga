@@ -4,7 +4,9 @@
 			<h1>Regelwerk</h1>
 		</div>
 
-		<p class="bg-info">Zuletzt aktualisiert am 26. September 2016</p>
+		<div class="alert alert-info" role="alert">
+			Zuletzt aktualisiert am <strong>26. September 2016</strong>
+		</div>
 
 		<div class="text-justify">
 
