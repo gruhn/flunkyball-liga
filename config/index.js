@@ -18,11 +18,11 @@ module.exports = {
 	},*/
 	build: {
 		env: require('./prod.env'),
-		index: path.resolve(__dirname, '../../flunkyball-liga-backend/resources/views/index.blade.php'),
+		index: path.resolve(__dirname, '../../flunkyball-liga-backend/resources/views/layouts/app.blade.php'),
 		assetsRoot: path.resolve(__dirname, '../../flunkyball-liga-backend/public'),
 		assetsSubDirectory: 'static',
 		assetsPublicPath: '/',
-		productionSourceMap: true,
+		productionSourceMap: false,
 		// Gzip off by default as many popular static hosts such as
 		// Surge or Netlify already gzip all static assets for you.
 		// Before setting to `true`, make sure to:
@@ -37,7 +37,7 @@ module.exports = {
 		assetsPublicPath: '/',
 		proxyTable: {
 			'/api' : {
-				target : 'http://192.168.0.11:80/flunkyball-liga.org/www2',
+				target : 'http://localhost:8000',
 				changeOrigin : true
 			}
 		},
