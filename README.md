@@ -1,27 +1,5 @@
-# flunkyball-liga
+# Flunkyball Liga
 
-> A Vue.js project
+Flunkyball-Liga ist ein Projekt zur Förderung der großartigen Sportart Flunkyball. Seit 2015 werden auf flunkyball-liga.org die statistische Daten von Flunkyball-Turnieren erfasst und veröffentlicht. Dieses Repo enthält den Code der Webseite.
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+Schau' [ins Wiki](https://github.com/gruhn/flunkyball-liga/wiki) für Details.
