@@ -5,7 +5,7 @@
 
 			<div class="container">
 				<p>
-					Flunkyball-Liga.org ist ein Projekt zur Förderung der großartigen Sportart Flunkyball.
+					Flunkyball-Liga ist ein Projekt zur Förderung der großartigen Sportart Flunkyball.
 					Mit dem <strong>26. Juni 2015</strong> wurden erstmals die statistischen Daten eines Flunkyball-Turniers
 					erfasst und hier veröffentlicht. Seither wurden <strong>{{stats.anzahl_turniere}} Turniere</strong>
 					aufgezeichnet, an denen zusammen <strong>{{stats.anzahl_teilnehmer_total}} Spieler</strong>
@@ -71,16 +71,16 @@ export default {
 
 	methods : {
 		loadStats () {
-			this.$http.get('turniere?pretty=0').then(response => {
-				response.data.filter(item => {
-					return item.gab_datenerfassung
-				}).forEach(item => {
-					this.$http.get('turniere/'+ item.turnier_id +'?pretty=0', {cache : true}).then(response => {
+			this.$http.get('turniere.json', { cache: true }).then(response => {
+				response.data
+					.filter(item => item.gab_datenerfassung)
+					.forEach(item => {
+					// this.$http.get('turniere/'+ item.turnier_id +'.json', {cache : true}).then(response => {
 						this.stats.anzahl_turniere += 1
-						this.stats.anzahl_teilnehmer_total += response.data.anzahl_teilnehmer
-						this.stats.anzahl_spiele_total += response.data.anzahl_spiele
+						this.stats.anzahl_teilnehmer_total += item.anzahl_teilnehmer
+						this.stats.anzahl_spiele_total += item.anzahl_spiele
+					// })
 					})
-				})
 			})
 		}
 	},

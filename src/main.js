@@ -8,7 +8,7 @@ Vue.use(Vuex)
 Vue.use(VueResource)
 Vue.use(VueRouter)
 
-Vue.http.options.root = '/api/v1'
+Vue.http.options.root = '/static/api/v1'
 
 moment.locale('de')
 

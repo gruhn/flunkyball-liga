@@ -1,0 +1,27 @@
+[
+    {
+        "turnierphase_id": 3,
+        "phasen_index": 0,
+        "bezeichnung": "Finale"
+    },
+    {
+        "turnierphase_id": 4,
+        "phasen_index": 1,
+        "bezeichnung": "Halbfinale"
+    },
+    {
+        "turnierphase_id": 2,
+        "phasen_index": 2,
+        "bezeichnung": "Viertelfinale"
+    },
+    {
+        "turnierphase_id": 1,
+        "phasen_index": 3,
+        "bezeichnung": "Achtelfinale"
+    },
+    {
+        "turnierphase_id": 5,
+        "phasen_index": 4,
+        "bezeichnung": "Gruppenspiel"
+    }
+]
