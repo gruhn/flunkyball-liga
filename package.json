@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.0.0",
-    "chart.js": "^2.3.0",
+    "chart.js": "^2.9.4",
     "lodash": "^4.16.4",
     "moment": "^2.15.1",
     "vue": "^2.0.0",
